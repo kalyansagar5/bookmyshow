@@ -16,10 +16,12 @@ pipeline {
             }
         }
 
-        stage('Build JAR (Maven)') {
+        stage('Build JAR (Dockerized Maven)') {
             steps {
-                echo 'Building Spring Boot JAR...'
-                sh 'mvn clean package -DskipTests'
+                echo 'Building Spring Boot JAR using Maven container...'
+                sh '''
+                    docker run --rm -v $PWD:/app -w /app maven:3.8.8-openjdk-8 mvn clean package -DskipTests
+                '''
             }
         }
 
