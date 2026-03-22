@@ -10,7 +10,7 @@ pipeline {
 
         stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/bookmyshow.git'
+               git credentialsId: 'git_cred', url: 'https://github.com/kalyansagar5/bookmyshow.git'
             }
         }
 
