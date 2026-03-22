@@ -16,13 +16,13 @@ pipeline {
 
         stage('Build JAR (Maven)') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t bookmyshow-app .'
+                sh 'docker build -t bookmyshow-app .'
             }
         }
 
@@ -33,7 +33,7 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat """
+                    sh """
                         docker login -u %DOCKER_USER% -p %DOCKER_PASS%
                         docker tag bookmyshow-app %DOCKER_USER%/bookmyshow:latest
                         docker push %DOCKER_USER%/bookmyshow:latest
@@ -44,7 +44,7 @@ pipeline {
 
         stage('Run Container') {
             steps {
-                bat """
+                sh """
                     docker rm -f %CONTAINER_NAME% || exit 0
                     docker run -d -p 8080:8080 --name %CONTAINER_NAME% bookmyshow-app
                 """
