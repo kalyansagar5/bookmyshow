@@ -33,7 +33,7 @@ pipeline {
         stage('Push Docker Image to DockerHub') {
             steps {
                 echo 'Pushing Docker image to DockerHub...'
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker_cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         docker login -u $DOCKER_USER -p $DOCKER_PASS
                         docker tag bookmyshow-app $DOCKER_USER/bookmyshow-app:latest
